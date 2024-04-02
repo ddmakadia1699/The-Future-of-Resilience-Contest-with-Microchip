@@ -1,1 +1,81 @@
-a
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphs</title>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            width: 45%; /* Adjust as needed */
+            margin: 10px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Smart Light Monitor</h1>
+    <div class="chart-container">
+        <canvas id="currentChart" width="200" height="200"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="voltageChart" width="200" height="200"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="powerChart" width="200" height="200"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="energyChart" width="200" height="200"></canvas>
+    </div>
+
+    <script>
+        // Sample data (replace with your actual data)
+        const data = [
+            { current: 10, voltage: 5, power: 50, energy: 100 },
+            { current: 20, voltage: 7, power: 140, energy: 200 },
+            { current: 15, voltage: 6, power: 90, energy: 150 },
+            { current: 25, voltage: 8, power: 200, energy: 250 }
+        ];
+
+        // Extracting data for each graph
+        const currents = data.map(item => item.current);
+        const voltages = data.map(item => item.voltage);
+        const powers = data.map(item => item.power);
+        const energies = data.map(item => item.energy);
+
+        // Function to create chart
+        function createChart(canvasId, data, label) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map((_, index) => `Data ${index + 1}`),
+                    datasets: [{
+                        label: label,
+                        data: data,
+                        borderColor: 'blue',
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: label
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        // Create charts
+        createChart('currentChart', currents, 'Current');
+        createChart('voltageChart', voltages, 'Voltage');
+        createChart('powerChart', powers, 'Power');
+        createChart('energyChart', energies, 'Energy');
+    </script>
+</body>
+</html>
